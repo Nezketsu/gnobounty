@@ -34,3 +34,24 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+## Backend
+
+This project includes a Go backend to interact with the Gno.land blockchain.
+
+To run the backend:
+
+```bash
+cd backend
+go run main.go
+```
+
+The backend runs on `http://localhost:8080`.
+The frontend expects the backend to be running to fetch bounties.
+
+## Gno.land Smart Contract
+
+The GnoBounty smart contract is deployed on Gno.land at:
+**https://gno.land/r/greg007/gnobounty_v2**
+
+This realm handles all bounty creation, applications, and claims on the blockchain.
