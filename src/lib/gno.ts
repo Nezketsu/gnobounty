@@ -235,7 +235,7 @@ function parseGnoStruct(str: string): any {
 export async function getBounties(): Promise<Bounty[]> {
     try {
         // Fetch from the Go backend
-        const response = await fetch('http://localhost:8080/api/bounties/');
+        const response = await fetch('/api/bounties');
         if (!response.ok) {
             throw new Error(`Backend responded with status: ${response.status}`);
         }
@@ -328,7 +328,7 @@ export async function voteOnApplication(applicationId: string, approve: boolean,
 // Get detailed bounty information including all fields
 export async function getBountyDetails(bountyId: string): Promise<Bounty | null> {
     try {
-        const response = await fetch(`http://localhost:8080/api/bounties/${bountyId}`);
+        const response = await fetch(`/api/bounties/${bountyId}`);
         if (!response.ok) {
             if (response.status === 404) return null;
             throw new Error(`Backend responded with status: ${response.status}`);
@@ -344,7 +344,7 @@ export async function getBountyDetails(bountyId: string): Promise<Bounty | null>
 // Get applications for a specific bounty
 export async function getBountyApplications(bountyId: string): Promise<BountyApplication[]> {
     try {
-        const response = await fetch(`http://localhost:8080/api/bounties/${bountyId}/applications`);
+        const response = await fetch(`/api/bounties/${bountyId}/applications`);
         if (!response.ok) {
             if (response.status === 404) return [];
             throw new Error(`Backend responded with status: ${response.status}`);
@@ -377,7 +377,7 @@ export async function renderBounty(bountyId: string): Promise<string> {
 // Get leaderboard data
 export async function getLeaderboard(): Promise<LeaderboardEntry[]> {
     try {
-        const response = await fetch('http://localhost:8080/api/leaderboard');
+        const response = await fetch('/api/leaderboard');
         if (!response.ok) {
             throw new Error(`Backend responded with status: ${response.status}`);
         }

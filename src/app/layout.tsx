@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Space_Mono } from "next/font/google";
+import { Analytics } from "@vercel/analytics/react";
 import "./globals.css";
 
 const spaceMono = Space_Mono({
@@ -22,6 +23,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${spaceMono.className} bg-[#050510] text-blue-100 antialiased selection:bg-cyan-500/30 selection:text-cyan-100`}>
         {children}
+        <Analytics />
       </body>
     </html>
   );
