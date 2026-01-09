@@ -49,33 +49,35 @@ export default function DashboardPage() {
 
   const loadUserData = async (userAddress: string) => {
     setLoading(true);
-    console.log('Loading data for address:', userAddress);
     try {
-      const [bountiesRes, applicationsRes] = await Promise.all([
-        fetch(`/api/user/${userAddress}/bounties`),
-        fetch(`/api/user/${userAddress}/applications`)
-      ]);
-
-      console.log('Bounties response status:', bountiesRes.status);
-      console.log('Applications response status:', applicationsRes.status);
-
-      if (bountiesRes.ok) {
-        const bountiesData = await bountiesRes.json();
-        console.log('Bounties data:', bountiesData);
-        setCreatedBounties(bountiesData);
-      } else {
-        console.error('Failed to fetch bounties:', await bountiesRes.text());
+      // Fetch bounties and applications separately with individual error handling
+      try {
+        const bountiesRes = await fetch(`/api/user/${userAddress}/bounties`);
+        if (bountiesRes.ok) {
+          const bountiesData = await bountiesRes.json();
+          setCreatedBounties(Array.isArray(bountiesData) ? bountiesData : []);
+        } else {
+          console.error('Failed to fetch bounties:', bountiesRes.status);
+          setCreatedBounties([]);
+        }
+      } catch (err) {
+        console.error('Error fetching bounties:', err);
+        setCreatedBounties([]);
       }
 
-      if (applicationsRes.ok) {
-        const applicationsData = await applicationsRes.json();
-        console.log('Applications data:', applicationsData);
-        setApplications(applicationsData);
-      } else {
-        console.error('Failed to fetch applications:', await applicationsRes.text());
+      try {
+        const applicationsRes = await fetch(`/api/user/${userAddress}/applications`);
+        if (applicationsRes.ok) {
+          const applicationsData = await applicationsRes.json();
+          setApplications(Array.isArray(applicationsData) ? applicationsData : []);
+        } else {
+          console.error('Failed to fetch applications:', applicationsRes.status);
+          setApplications([]);
+        }
+      } catch (err) {
+        console.error('Error fetching applications:', err);
+        setApplications([]);
       }
-    } catch (error) {
-      console.error('Error loading user data:', error);
     } finally {
       setLoading(false);
     }

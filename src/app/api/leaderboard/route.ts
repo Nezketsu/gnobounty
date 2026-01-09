@@ -83,8 +83,6 @@ export async function GET() {
             "GetLeaderboard()"
         );
 
-        console.log('Raw leaderboard data:', leaderboardData);
-
         const entries: LeaderboardEntry[] = [];
 
         // Parse the slice of structs
@@ -125,8 +123,6 @@ export async function GET() {
                 }
             }
         }
-
-        console.log(`Parsed ${entries.length} leaderboard entries`);
 
         // Sort by score (highest first)
         entries.sort((a, b) => b.score - a.score);
