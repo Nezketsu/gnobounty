@@ -89,7 +89,7 @@ export async function GET() {
 
         // Parse the slice of structs
         // Format: (slice[(struct{...}),(struct{...})] []LeaderboardEntry)
-        const sliceMatch = leaderboardData.match(/slice\[(.*)\]\s*\[\]/s);
+        const sliceMatch = leaderboardData.match(/slice\[([\s\S]*)\]\s*\[\]/);
         if (sliceMatch) {
             const sliceContent = sliceMatch[1];
 

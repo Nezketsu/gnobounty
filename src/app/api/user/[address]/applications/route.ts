@@ -194,7 +194,7 @@ export async function GET(
         );
 
         // Parse the array of applications
-        const sliceMatch = applicationsRaw.match(/slice\[(.*)\]\s*\[\]/s);
+        const sliceMatch = applicationsRaw.match(/slice\[([\s\S]*)\]\s*\[\]/);
         if (sliceMatch) {
           const sliceContent = sliceMatch[1];
 

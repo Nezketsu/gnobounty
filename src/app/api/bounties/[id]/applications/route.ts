@@ -150,7 +150,7 @@ export async function GET(
         const applications = [];
 
         // Extract the slice content by finding matching parentheses
-        const sliceMatch = applicationsRaw.match(/slice\[(.*)\]\s*\[\]/s);
+        const sliceMatch = applicationsRaw.match(/slice\[([\s\S]*)\]\s*\[\]/);
         if (sliceMatch) {
             const sliceContent = sliceMatch[1];
 
