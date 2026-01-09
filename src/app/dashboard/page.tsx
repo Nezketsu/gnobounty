@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { ChevronLeft, ExternalLink, Clock, CheckCircle, XCircle, AlertCircle } from 'lucide-react';
+import { ChevronLeft, ExternalLink, Clock, CheckCircle, XCircle, AlertCircle, LogOut } from 'lucide-react';
 
 interface Bounty {
   id: string;
@@ -49,26 +49,41 @@ export default function DashboardPage() {
 
   const loadUserData = async (userAddress: string) => {
     setLoading(true);
+    console.log('Loading data for address:', userAddress);
     try {
       const [bountiesRes, applicationsRes] = await Promise.all([
         fetch(`/api/user/${userAddress}/bounties`),
         fetch(`/api/user/${userAddress}/applications`)
       ]);
 
+      console.log('Bounties response status:', bountiesRes.status);
+      console.log('Applications response status:', applicationsRes.status);
+
       if (bountiesRes.ok) {
         const bountiesData = await bountiesRes.json();
+        console.log('Bounties data:', bountiesData);
         setCreatedBounties(bountiesData);
+      } else {
+        console.error('Failed to fetch bounties:', await bountiesRes.text());
       }
 
       if (applicationsRes.ok) {
         const applicationsData = await applicationsRes.json();
+        console.log('Applications data:', applicationsData);
         setApplications(applicationsData);
+      } else {
+        console.error('Failed to fetch applications:', await applicationsRes.text());
       }
     } catch (error) {
       console.error('Error loading user data:', error);
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleDisconnect = () => {
+    localStorage.removeItem('walletAddress');
+    router.push('/');
   };
 
   const formatAmount = (amount: string) => {
@@ -124,13 +139,23 @@ export default function DashboardPage() {
       <div className="container mx-auto px-4 py-8">
         {/* Header */}
         <div className="mb-8">
-          <Link
-            href="/"
-            className="inline-flex items-center text-cyan-400 hover:text-cyan-300 transition-colors mb-4 font-mono"
-          >
-            <ChevronLeft className="w-4 h-4 mr-1" />
-            BACK
-          </Link>
+          <div className="flex items-center justify-between mb-4">
+            <Link
+              href="/"
+              className="inline-flex items-center text-cyan-400 hover:text-cyan-300 transition-colors font-mono"
+            >
+              <ChevronLeft className="w-4 h-4 mr-1" />
+              BACK
+            </Link>
+
+            <button
+              onClick={handleDisconnect}
+              className="flex items-center gap-2 px-4 py-2 bg-red-950/30 border border-red-500/30 hover:border-red-400 hover:bg-red-950/50 transition-all text-xs font-mono text-red-400 hover:text-red-300 uppercase tracking-wider"
+            >
+              <LogOut className="w-3 h-3" />
+              DISCONNECT
+            </button>
+          </div>
 
           <div className="border-l-4 border-cyan-400 pl-4">
             <h1 className="text-3xl font-bold font-mono mb-2">USER_DASHBOARD</h1>
